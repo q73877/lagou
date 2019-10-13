@@ -22,17 +22,19 @@ export default new Router({
       path: '/',
       // 使用页面懒加载的方式
       component: () => import('./views/home/index.vue'),
-      // 职位--搜素--我的
       children: [
         {
+          // 列表页面
           path: 'first',
           component: () => import('./views/home/first.vue')
         },
         {
+          // 个人中心页面
           path: 'mine',
           component: () => import('./views/home/mine.vue')
         },
         {
+          // 搜索页面
           path: 'search',
           component: () => import('./views/home/search.vue')
         },
@@ -61,28 +63,24 @@ export default new Router({
       component: () => import('./views/resume/index.vue')
     },
     {
-      // 用户详情页面
+      // 个人中心里的跳转
       path: '/user',
       component: () => import('./views/mine/index.vue'),
       children: [
         {
           // 收藏页面
-          path: '/collection',
+          path: 'collection',
           component: () => import('./views/mine/collection.vue')
         },
         {
           // 投递页面
-          path: '/delivery',
+          path: 'delivery',
           component: () => import('./views/mine/delivery.vue')
         },
         {
           // 面试页面
-          path: '/interview',
+          path: 'interview',
           component: () => import('./views/mine/interview.vue')
-        },
-        {
-          path: '',
-          redirect: '/mine'
         }
       ]
     },
