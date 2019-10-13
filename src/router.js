@@ -57,22 +57,39 @@ export default new Router({
       component: () => import('./views/film/index.vue')
     },
     {
+      path: '/resume',
+      component: () => import('./views/resume/index.vue')
+    },
+    {
+      // 用户详情页面
       path: '/user',
       component: () => import('./views/mine/index.vue'),
       children: [
         {
+          // 收藏页面
           path: '/collection',
           component: () => import('./views/mine/collection.vue')
         },
         {
+          // 投递页面
           path: '/delivery',
           component: () => import('./views/mine/delivery.vue')
         },
         {
+          // 面试页面
           path: '/interview',
           component: () => import('./views/mine/interview.vue')
+        },
+        {
+          path: '',
+          redirect: '/mine'
         }
       ]
+    },
+    {
+      // 职位编辑定制页面
+      path: '/editor',
+      component: () => import('./views/editor/index.vue')
     }
   ]
 })
