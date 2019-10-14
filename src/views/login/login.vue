@@ -53,6 +53,7 @@
 </style>
 
 <script>
+import { mapActions } from "vuex";
 export default {
   data() {
     return {
@@ -61,6 +62,7 @@ export default {
     };
   },
   methods: {
+    ...mapActions("film", ["setlogin"]),
     // 点击登录
     handlogin() {
       window.localStorage.setItem(
@@ -69,8 +71,13 @@ export default {
       );
 
       // 登录成功
-      this.$router.push("/first");
+      let redirect = this.$route.query.redirect || "/first";
+      this.$router.replace(redirect);
+      this.setlogin(window.localStorage.getItem("userInfo"));
     }
+  },
+  mounted() {
+    console.log(this.setlogin);
   }
 };
 </script>

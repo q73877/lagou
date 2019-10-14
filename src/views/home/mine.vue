@@ -3,7 +3,7 @@
     <!-- 二级路由页面，个人中心页 -->
     <div class="loginInfo">
       <!-- 未登录 -->
-      <div class="nologin" v-if="islogin">
+      <div class="nologin" v-if="!islogin">
         <router-link to="/login" tag="p">登录/注册</router-link>
       </div>
       <!-- 已登录 -->
@@ -33,7 +33,7 @@
         </router-link>
       </div>
     </div>
-    <van-button type="primary" @click="handlogin" v-if="islogin">退出登录</van-button>
+    <van-button type="primary" @click="unlogin" v-if="islogin">退出登录</van-button>
   </div>
 </template>
 
@@ -116,17 +116,34 @@
 </style>
 
 <script>
-import { watchFile, watch } from "fs";
+import { mapState, mapActions, mapMutations } from "vuex";
 export default {
   data() {
     return {
-      islogin: true
+      islogin: false
     };
   },
+  computed: {
+    ...mapState("film", ["haslogin"])
+  },
   methods: {
-    handlogin() {
-      this.$router.push("/mine");
+    ...mapActions("film", ["setlogin"]),
+    unlogin() {
       window.localStorage.removeItem("userInfo");
+      this.setlogin("");
+      this.$router.push("/first");
+    }
+  },
+  watch: {
+    islogin() {
+      if (this.haslogin) {
+        return false;
+      }
+    }
+  },
+  created() {
+    console.log(this.haslogin);
+    if (this.haslogin) {
       this.islogin = true;
     }
   }

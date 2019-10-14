@@ -69,6 +69,22 @@ const router = new Router({
     },
     {
       // 个人中心里的跳转
+      path: '/editor',
+      component: () => import('./views/editor/index.vue'),
+      children: [
+        {
+          path: 'position',
+          component: () => import('./views/editor/first.vue')
+        },
+        {
+          path: 'salary',
+          component: () => import('./views/editor/salary.vue')
+        }
+
+      ]
+    },
+    {
+      // 用户详情页面
       path: '/user',
       component: () => import('./views/mine/index.vue'),
       children: [
@@ -97,11 +113,6 @@ const router = new Router({
           }
         }
       ]
-    },
-    {
-      // 职位编辑定制页面
-      path: '/editor',
-      component: () => import('./views/editor/index.vue')
     }
   ]
 })
