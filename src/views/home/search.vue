@@ -2,24 +2,29 @@
   <div class="page-home-search">
     <!-- 二级路由页面，搜索页 -->
     <router-link to="/city" class="city-a" tag="span">全国</router-link>
-    <van-search placeholder="搜索职位" show-action shape="round" left-icon v-model="searchVal">
-      <div slot="action">
+    <van-search
+      placeholder="搜索公司名称"
+      show-action
+      shape="round"
+      left-icon
+      v-model="searchVal"
+      @blur="handsearch"
+    >
+      <div slot="action" @click="handsearch">
         <i class="iconfont icon-weibiaoti- icon-size"></i>
       </div>
     </van-search>
 
     <ul class="list">
-      <li>
-        <img
-          src="//www.lgstatic.com/image2/M00/13/2B/CgpzWlY5yOyAU1EDAAHIozKonEE877.jpg?cc=0.035578635055571795"
-        />
+      <li v-for="item in search" :key="item.id">
+        <img :src="item.img" />
         <div>
-          <h2>公司名称</h2>
+          <h2>{{ item.title }}</h2>
           <p>
-            <span>职位 [城市]</span>
-            <span>工资</span>
+            <span>{{ item.job }} [{{item.address}}]</span>
+            <span>{{item.wage}}</span>
           </p>
-          <span class="a-time">时间</span>
+          <span class="a-time">{{item.ltime}}</span>
         </div>
       </li>
     </ul>
@@ -31,7 +36,7 @@
   .city-a {
     float: left;
     display: block;
-    width: 20%;
+    width: 15%;
     line-height: 40px;
     height: 40px;
     border-bottom: 1px solid #ccc;
@@ -39,7 +44,7 @@
   }
   .van-search {
     padding: 0;
-    width: 80%;
+    width: 85%;
     float: right;
     border-bottom: 1px solid #ccc;
     border-left: 1px solid #ccc;
@@ -47,6 +52,9 @@
     .van-search__content {
       border-radius: 0;
       background: #fff;
+    }
+    .van-search__action {
+      width: 30px;
     }
     .van-cell {
       height: 40px;
@@ -114,14 +122,22 @@ export default {
       searchVal: ""
     };
   },
+  /* watch: {
+    searchVal(newVal) {
+      this.getSearch(newVal);
+    }
+  }, */
   methods: {
-    ...mapActions("film", ["getFilmList"])
+    ...mapActions("film", ["getSearch"]),
+    handsearch() {
+      this.getSearch(this.searchVal);
+    }
   },
   computed: {
     ...mapState("film", ["search"])
   },
   created() {
-    this.getFilmList();
+    //this.getFilmList();
   }
 };
 </script>

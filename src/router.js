@@ -78,19 +78,31 @@ const router = new Router({
       children: [
         {
           path: 'position',
-          component: () => import('./views/editor/first.vue')
+          component: () => import('./views/editor/first.vue'),
+          meta: {
+            needLogin: true
+          }
         },
         {
           path: 'salary',
-          component: () => import('./views/editor/salary.vue')
+          component: () => import('./views/editor/salary.vue'),
+          meta: {
+            needLogin: true
+          }
         },
         {
           path: 'stages',
-          component: () => import('./views/editor/stages.vue')
+          component: () => import('./views/editor/stages.vue'),
+          meta: {
+            needLogin: true
+          }
         },
         {
           path: 'job',
-          component: () => import('./views/editor/job.vue')
+          component: () => import('./views/editor/job.vue'),
+          meta: {
+            needLogin: true
+          }
         },
         {
           path: '',
