@@ -55,6 +55,10 @@ const router = new Router({
       component: () => import('./views/regiter/index.vue')
     },
     {
+      path: '/city',
+      component: () => import('./views/city/index.vue')
+    },
+    {
       // 公司详情页面
       path: '/film/:id',
       component: () => import('./views/film/index.vue')
