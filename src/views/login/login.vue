@@ -11,7 +11,7 @@
 
       <van-field v-model="password" type="password" placeholder="请输入密码" />
     </van-cell-group>
-    <van-button type="primary">登录</van-button>
+    <van-button type="primary" @click="handlogin">登录</van-button>
   </div>
 </template>
 <style lang="scss">
@@ -59,6 +59,18 @@ export default {
       username: "",
       password: ""
     };
+  },
+  methods: {
+    // 点击登录
+    handlogin() {
+      window.localStorage.setItem(
+        "userInfo",
+        JSON.stringify({ username: "张三" })
+      );
+
+      // 登录成功
+      this.$router.push("/first");
+    }
   }
 };
 </script>

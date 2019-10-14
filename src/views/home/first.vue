@@ -64,3 +64,24 @@
   }
 }
 </style>
+
+<script>
+import { mapState, mapActions } from "vuex";
+import axios from "axios";
+
+export default {
+  computed: {
+    ...mapState("film", ["filmList"])
+  },
+  methods: {
+    ...mapActions("film", ["getFilmList"])
+  },
+  created() {
+    /* axios.get("http://localhost:3000/posts").then(response => {
+      console.log(response.data);
+    }); */
+    this.getFilmList();
+    //console.log(this.getFilmList);
+  }
+};
+</script>

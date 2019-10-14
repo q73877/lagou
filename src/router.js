@@ -15,7 +15,7 @@ import FilmInfo from './views/film/index.vue' */
 
 Vue.use(Router)
 
-export default new Router({
+const router = new Router({
   routes: [
     {
       // 默认页面
@@ -55,12 +55,17 @@ export default new Router({
       component: () => import('./views/regiter/index.vue')
     },
     {
+      // 公司详情页面
       path: '/film/:id',
       component: () => import('./views/film/index.vue')
     },
     {
+      // 个人简历页面
       path: '/resume',
-      component: () => import('./views/resume/index.vue')
+      component: () => import('./views/resume/index.vue'),
+      meta: {
+        needLogin: true
+      }
     },
     {
       // 个人中心里的跳转
@@ -70,17 +75,26 @@ export default new Router({
         {
           // 收藏页面
           path: 'collection',
-          component: () => import('./views/mine/collection.vue')
+          component: () => import('./views/mine/collection.vue'),
+          meta: {
+            needLogin: true
+          }
         },
         {
           // 投递页面
           path: 'delivery',
-          component: () => import('./views/mine/delivery.vue')
+          component: () => import('./views/mine/delivery.vue'),
+          meta: {
+            needLogin: true
+          }
         },
         {
           // 面试页面
           path: 'interview',
-          component: () => import('./views/mine/interview.vue')
+          component: () => import('./views/mine/interview.vue'),
+          meta: {
+            needLogin: true
+          }
         }
       ]
     },
@@ -91,3 +105,27 @@ export default new Router({
     }
   ]
 })
+
+// 实现登录拦截
+// 全局守卫
+router.beforeEach((to, from, next) => {
+  let userInfo = window.localStorage.getItem('userInfo')
+
+  // console.log(to)
+  // console.log(from)
+
+  if (to.meta.needLogin && !userInfo) {
+    // 要去登录
+    // next('/login')
+    next({
+      path: '/login',
+      query: {
+        redirect: to.fullPath
+      }
+    })
+  } else {
+    next()
+  }
+})
+
+export default router

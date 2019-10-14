@@ -3,7 +3,7 @@
     <!-- 二级路由页面，个人中心页 -->
     <div class="loginInfo">
       <!-- 未登录 -->
-      <div class="nologin" v-if="false">
+      <div class="nologin" v-if="islogin">
         <router-link to="/login" tag="p">登录/注册</router-link>
       </div>
       <!-- 已登录 -->
@@ -33,13 +33,14 @@
         </router-link>
       </div>
     </div>
+    <van-button type="primary" @click="handlogin" v-if="islogin">退出登录</van-button>
   </div>
 </template>
 
 <style lang="scss">
 .page-home-mine {
+  padding: 0 15px;
   .loginInfo {
-    padding: 0 15px;
     margin: 10px 0;
     .nologin {
       height: 111px;
@@ -91,7 +92,6 @@
     }
   }
   .buttons {
-    padding: 15px;
     .button {
       float: left;
       display: block;
@@ -107,5 +107,28 @@
       }
     }
   }
+  .van-button {
+    width: 100%;
+    margin-top: 30px;
+    background: #00b38a;
+  }
 }
 </style>
+
+<script>
+import { watchFile, watch } from "fs";
+export default {
+  data() {
+    return {
+      islogin: true
+    };
+  },
+  methods: {
+    handlogin() {
+      this.$router.push("/mine");
+      window.localStorage.removeItem("userInfo");
+      this.islogin = true;
+    }
+  }
+};
+</script>
