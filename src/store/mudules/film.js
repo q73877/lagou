@@ -11,7 +11,7 @@ export default {
     state.filmList.forEach(item => {
 
     })
-  }
+  },
   mutations: {
     // 默认页公司列表
     setFilmList(state, payload) {

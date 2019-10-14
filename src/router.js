@@ -83,6 +83,18 @@ const router = new Router({
         {
           path: 'salary',
           component: () => import('./views/editor/salary.vue')
+        },
+        {
+          path: 'stages',
+          component: () => import('./views/editor/stages.vue')
+        },
+        {
+          path: 'job',
+          component: () => import('./views/editor/job.vue')
+        },
+        {
+          path: '',
+          redirect: 'position'
         }
 
       ]
