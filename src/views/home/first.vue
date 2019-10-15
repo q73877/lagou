@@ -7,16 +7,22 @@
         <router-link to="/editor" class="editor-a">编辑</router-link>
       </div>
       <ul class="list">
-        <li>
-          <img src="//www.lgstatic.com/i/image2/M01/7B/04/CgotOVtxRgOAYwR6AAAJqpibehU283.jpg" />
+        <router-link
+          tag="li"
+          v-for="film in filmList"
+          :key="film.id"
+          :to="{path:'/film',query:{ id:film.id }}"
+        >
+          <img :src="film.img" />
           <div>
-            <h2>ImageDT图匠数据</h2>
+            <h2>{{ film.title }}</h2>
             <p>
-              <span>高级java开发工程师 [ 广州 ]</span>
-              <span>20k-30k</span>
+              <span>{{ film.job }} [{{ film.address }}]</span>
+              <span>{{ film.wage }}</span>
             </p>
+            <span class="a-time">{{ film.ltime }}</span>
           </div>
-        </li>
+        </router-link>
       </ul>
     </div>
   </div>
@@ -59,8 +65,66 @@
     li {
       padding: 14px;
       border-bottom: 1px solid #e8e8e8;
-      display: list-item;
+      display: flex;
+      img {
+        float: left;
+        width: 60px;
+        height: 60px;
+      }
+      div {
+        margin-left: 10px;
+        height: 62px;
+        width: 100%;
+        color: #333;
+        h2 {
+          font-size: 16px;
+          margin-bottom: 6px;
+          width: 80%;
+          overflow: hidden;
+          white-space: nowrap;
+          font-weight: bold;
+        }
+        p {
+          margin-bottom: 6px;
+          width: 100%;
+          height: 15px;
+          line-height: 15px;
+          color: #333;
+          font-size: 14px;
+          display: block;
+          span:nth-child(2) {
+            float: right;
+            font-size: 16px;
+            color: #00b38a;
+          }
+        }
+      }
+      .a-time {
+        color: #333;
+        font-size: 12px;
+      }
     }
   }
 }
 </style>
+
+<script>
+import { mapState, mapActions } from "vuex";
+// import axios from "axios";
+
+export default {
+  computed: {
+    ...mapState("film", ["filmList"])
+  },
+  methods: {
+    ...mapActions("film", ["getFilmList"])
+  },
+  created() {
+    /* axios.get("http://localhost:3000/posts").then(response => {
+      console.log(response.data);
+    }); */
+    this.getFilmList();
+    //console.log(this.getFilmList);
+  }
+};
+</script>

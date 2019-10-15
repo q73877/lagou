@@ -15,24 +15,26 @@ import FilmInfo from './views/film/index.vue' */
 
 Vue.use(Router)
 
-export default new Router({
+const router = new Router({
   routes: [
     {
       // 默认页面
       path: '/',
       // 使用页面懒加载的方式
       component: () => import('./views/home/index.vue'),
-      // 职位--搜素--我的
       children: [
         {
+          // 列表页面
           path: 'first',
           component: () => import('./views/home/first.vue')
         },
         {
+          // 个人中心页面
           path: 'mine',
           component: () => import('./views/home/mine.vue')
         },
         {
+          // 搜索页面
           path: 'search',
           component: () => import('./views/home/search.vue')
         },
@@ -53,26 +55,60 @@ export default new Router({
       component: () => import('./views/regiter/index.vue')
     },
     {
-      path: '/film/:id',
+      path: '/city',
+      component: () => import('./views/city/index.vue')
+    },
+    {
+      // 公司详情页面
+      path: '/film',
       component: () => import('./views/film/index.vue')
     },
     {
+      // 个人简历页面
       path: '/resume',
-      component: () => import('./views/resume/index.vue')
+      component: () => import('./views/resume/index.vue'),
+      meta: {
+        needLogin: true
+      }
     },
     {
-      path:'/editor',
+      // 个人中心里的跳转
+      path: '/editor',
       component: () => import('./views/editor/index.vue'),
-      children :[
+      children: [
         {
           path: 'position',
-          component: () => import('./views/editor/first.vue')
+          component: () => import('./views/editor/first.vue'),
+          meta: {
+            needLogin: true
+          }
         },
         {
           path: 'salary',
-          component: () => import('./views/editor/salary.vue')
+          component: () => import('./views/editor/salary.vue'),
+          meta: {
+            needLogin: true
+          }
+        },
+        {
+          path: 'stages',
+          component: () => import('./views/editor/stages.vue'),
+          meta: {
+            needLogin: true
+          }
+        },
+        {
+          path: 'job',
+          component: () => import('./views/editor/job.vue'),
+          meta: {
+            needLogin: true
+          }
+        },
+        {
+          path: '',
+          redirect: 'position'
         }
-        
+
       ]
     },
     {
@@ -82,29 +118,53 @@ export default new Router({
       children: [
         {
           // 收藏页面
-          path: '/collection',
-          component: () => import('./views/mine/collection.vue')
+          path: 'collection',
+          component: () => import('./views/mine/collection.vue'),
+          meta: {
+            needLogin: true
+          }
         },
         {
           // 投递页面
-          path: '/delivery',
-          component: () => import('./views/mine/delivery.vue')
+          path: 'delivery',
+          component: () => import('./views/mine/delivery.vue'),
+          meta: {
+            needLogin: true
+          }
         },
         {
           // 面试页面
-          path: '/interview',
-          component: () => import('./views/mine/interview.vue')
-        },
-        {
-          path: '',
-          redirect: '/mine'
+          path: 'interview',
+          component: () => import('./views/mine/interview.vue'),
+          meta: {
+            needLogin: true
+          }
         }
       ]
-    },
-    {
-      // 职位编辑定制页面
-      path: '/editor',
-      component: () => import('./views/editor/index.vue')
     }
   ]
 })
+
+// 实现登录拦截
+// 全局守卫
+router.beforeEach((to, from, next) => {
+  let userInfo = window.localStorage.getItem('userInfo')
+
+  // console.log(to)
+  // console.log(from)
+
+  if (to.meta.needLogin && !userInfo) {
+    // 要去登录
+    next({
+      path: '/login',
+      query: {
+        redirect: to.fullPath
+      }
+    })
+  } else {
+    next()
+  }
+})
+
+
+export default router
