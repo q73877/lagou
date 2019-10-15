@@ -13,7 +13,7 @@
 
     <div id="content">
       <div class="postitle">
-        <h2 class="title">产品经理</h2>
+        <h2 class="title">{{ filmobj.job }}</h2>
         <div class="collicon activeable">
           <span class="icon notcoll"></span>
           <span class="text">未收藏</span>
@@ -24,12 +24,12 @@
         <div class="items">
           <span class="item salary">
             <em class="icon"></em>
-            <span class="text">20k-40k</span>
+            <span class="text">{{ filmobj.wage }}</span>
           </span>
 
           <span class="item workaddress">
             <em class="icon"></em>
-            <span class="text">北京</span>
+            <span class="text">{{ filmobj.address }}</span>
           </span>
 
           <span class="item jobnature">
@@ -39,16 +39,16 @@
 
           <span class="item workyear">
             <em class="icon"></em>
-            <span class="text">3-5年</span>
+            <span class="text">{{ filmobj.yearjob }}</span>
           </span>
 
           <span class="item education">
             <em class="icon"></em>
-            <span class="text">本科及以上</span>
+            <span class="text">{{ filmobj.education }}</span>
           </span>
         </div>
         <!-- 诱惑 -->
-        <div class="temptation">职位诱惑：良好发展趋势与空间，良好工作与学习氛围。</div>
+        <div class="temptation">{{ filmobj.ptt }}</div>
       </div>
 
       <div
@@ -57,15 +57,11 @@
         data-lg-tj-no="0030"
         data-lg-tj-cid="410579"
       >
-        <img
-          src="//www.lgstatic.com/i/image2/M01/D3/C1/CgoB5lxGkWOAX8BcAAFAxNnySXk934.PNG"
-          alt
-          class="logo"
-        />
+        <img :src="filmobj.img" alt class="logo" />
         <div class="desc">
           <div class="dleft">
-            <h2 class="title">建信金科</h2>
-            <p class="info">金融,软件开发/ 不需要融资/ 2000人以上</p>
+            <h2 class="title">{{ filmobj.title }}</h2>
+            <p class="info">{{ filmobj.cp }}</p>
           </div>
         </div>
       </div>
@@ -119,6 +115,7 @@
           data-lg-tj-id="19v6"
           data-lg-tj-no="0020"
           data-lg-tj-cid="6460970"
+          @click="pttfn"
         >投递简历</div>
       </div>
     </div>
@@ -138,7 +135,7 @@
       position: absolute;
       left: 0;
       top: 0;
-      heihgt: 100%;
+      height: 100%;
       width: 40px;
       .corner {
         width: 9px;
@@ -154,7 +151,7 @@
       position: absolute;
       right: 0;
       top: 0;
-      heihgt: 100%;
+      height: 100%;
       width: 40px;
       .corner {
         width: 17px;
@@ -396,13 +393,30 @@ export default {
   //修改在浏览器-vue 上显示的文件名 index -- File
   name: "Film",
   data() {
-    return {};
+    return {
+      id: "",
+      list: ""
+    };
+  },
+  computed: {
+    ...mapState("film", ["filmList"]),
+    filmobj() {
+      let that = this;
+      let tmp = this.list.find(item => {
+        return item.id === that.id;
+      });
+      return tmp;
+    }
   },
   methods: {
-    ...mapActions("film", ["getFilmList"])
+    pttfn() {}
   },
   created() {
-    this.getFilmList();
+    this.id = this.$route.query.id;
+    this.list = this.filmList;
+    //console.log(this.id);
+    //console.log(this.filmList);
+    console.log(this.list);
   }
 };
 </script>
