@@ -111,12 +111,16 @@
 
       <div class="fix_btn_group">
         <div
+<<<<<<< HEAD
           class="deliver deliver_resume rows_bar"
           data-lg-tj-id="19v6"
           data-lg-tj-no="0020"
           data-lg-tj-cid="6460970"
           @click="pttfn"
         >投递简历</div>
+=======
+          class="deliver deliver_resume rows_bar">投递简历</div>
+>>>>>>> aaa
       </div>
     </div>
   </div>
