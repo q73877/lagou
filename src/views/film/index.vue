@@ -4,7 +4,7 @@
     <header id="header">
       职位详情
       <div class="left">
-        <span class="corner"></span>
+        <span class="corner" @click="goBack"></span>
       </div>
       <div class="right">
         <span class="corner"></span>
@@ -111,16 +111,13 @@
 
       <div class="fix_btn_group">
         <div
-<<<<<<< HEAD
           class="deliver deliver_resume rows_bar"
           data-lg-tj-id="19v6"
           data-lg-tj-no="0020"
           data-lg-tj-cid="6460970"
           @click="pttfn"
         >投递简历</div>
-=======
           class="deliver deliver_resume rows_bar">投递简历</div>
->>>>>>> aaa
       </div>
     </div>
   </div>
@@ -393,34 +390,50 @@
 
 <script>
 import { mapState, mapActions } from "vuex";
+import { Toast } from 'vant'
 export default {
   //修改在浏览器-vue 上显示的文件名 index -- File
   name: "Film",
   data() {
     return {
-      id: "",
-      list: ""
+      id: this.$route.query.id,
+      show:false
+      //list: ""
     };
   },
   computed: {
     ...mapState("film", ["filmList"]),
     filmobj() {
+
       let that = this;
-      let tmp = this.list.find(item => {
+      let tmp = this.filmList.find(item => {
+        // console.log('1aa')
         return item.id === that.id;
       });
+     Toast.clear()
       return tmp;
     }
   },
   methods: {
-    pttfn() {}
+    // ...mapActions('film',['getFilmList']),
+    goBack(){
+      this.$router.back()
+    },
+    pttfn() {},
+
   },
   created() {
-    this.id = this.$route.query.id;
-    this.list = this.filmList;
+     Toast.loading({
+        mask: true,
+        duration: 0, // 不让他自动消失
+        message: '加载中...'
+      })
+    // this.getFilmList()
+    //this.id = this.$route.query.id;
+    //this.list = this.filmList;
     //console.log(this.id);
     //console.log(this.filmList);
-    console.log(this.list);
+    //console.log(this.list);
   }
 };
 </script>

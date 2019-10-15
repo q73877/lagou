@@ -115,16 +115,16 @@ import { mapState, mapActions } from "vuex";
 export default {
   computed: {
     ...mapState("film", ["filmList"])
-  },
-  methods: {
+  }
+  /* methods: {
     ...mapActions("film", ["getFilmList"])
   },
-  created() {
-    /* axios.get("http://localhost:3000/posts").then(response => {
+  created() { */
+  /* axios.get("http://localhost:3000/posts").then(response => {
       console.log(response.data);
     }); */
-    this.getFilmList();
-    //console.log(this.getFilmList);
-  }
+  //this.getFilmList();
+  //console.log(this.getFilmList);
+  //}
 };
 </script>

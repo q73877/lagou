@@ -54,6 +54,8 @@
 
 <script>
 import { mapActions } from "vuex";
+import bcryptjs from "bcryptjs";
+import axios from "axios";
 export default {
   data() {
     return {
@@ -65,19 +67,31 @@ export default {
     ...mapActions("film", ["setlogin"]),
     // 点击登录
     handlogin() {
-      window.localStorage.setItem(
-        "userInfo",
-        JSON.stringify({ username: "张三" })
-      );
-
-      // 登录成功
-      let redirect = this.$route.query.redirect || "/first";
-      this.$router.replace(redirect);
-      this.setlogin(window.localStorage.getItem("userInfo"));
+      let that = this;
+      axios.get("http://localhost:3000/user").then(response => {
+        //console.log(response);
+        if (response.status === 200) {
+          let tmp = response.data.find(item => {
+            return item.username == that.username;
+          });
+          if (tmp) {
+            // 登录成功
+            console.log("ggg");
+            /*  window.localStorage.setItem(
+              "userInfo",
+              JSON.stringify({ username: JSON.stringify(username) })
+            );
+            let redirect = this.$route.query.redirect || "/first";
+            this.$router.replace(redirect);
+            this.setlogin(window.localStorage.getItem("userInfo")); */
+          }
+        }
+      });
     }
   },
   mounted() {
-    console.log(this.setlogin);
-  }
+    //console.log(this.setlogin);
+  },
+  created() {}
 };
 </script>

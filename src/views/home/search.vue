@@ -3,7 +3,7 @@
     <!-- 二级路由页面，搜索页 -->
     <router-link to="/city" class="city-a" tag="span">全国</router-link>
     <van-search
-      placeholder="搜索公司名称"
+      placeholder="搜索公司名称或职位"
       show-action
       shape="round"
       left-icon
@@ -16,7 +16,12 @@
     </van-search>
 
     <ul class="list">
-      <li v-for="item in search" :key="item.id">
+      <router-link
+        tag="li"
+        v-for="item in search"
+        :key="item.id"
+        :to="{path:'/film',query:{ id:item.id }}"
+      >
         <img :src="item.img" />
         <div>
           <h2>{{ item.title }}</h2>
@@ -26,7 +31,7 @@
           </p>
           <span class="a-time">{{item.ltime}}</span>
         </div>
-      </li>
+      </router-link>
     </ul>
   </div>
 </template>
@@ -119,25 +124,35 @@ import { mapActions, mapState } from "vuex";
 export default {
   data() {
     return {
-      searchVal: ""
+      searchVal: "",
+      search: []
     };
   },
-  /* watch: {
-    searchVal(newVal) {
-      this.getSearch(newVal);
-    }
-  }, */
-  methods: {
-    ...mapActions("film", ["getSearch"]),
-    handsearch() {
-      this.getSearch(this.searchVal);
-    }
-  },
   computed: {
-    ...mapState("film", ["search"])
+    ...mapState("film", ["filmList"])
   },
+  methods: {
+    //...mapActions("film", ["getFilmList"]),
+    handsearch() {
+      if (!this.searchVal) {
+        return [];
+      }
+      this.search = this.filmList.filter(item => {
+        return (
+          console.log("aa"),
+          item.title.indexOf(this.searchVal) > -1 ||
+            item.job.indexOf(this.searchVal) > -1
+        );
+      });
+      //return tmp;
+    }
+  },
+  /*  computed: {
+    ...mapState("film", ["search"])
+  }, */
   created() {
     //this.getFilmList();
+    console.log(this.filmList);
   }
 };
 </script>

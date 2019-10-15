@@ -50,7 +50,7 @@ export default {
       // console.log('aaa')
 
     },
-    getSearch({ commit, state }, payload) {
+    /* getSearch({ commit, state }, payload) {
       Toast.loading({
         mask: true,
         duration: 0, // 不让他自动消失
@@ -76,6 +76,6 @@ export default {
 
 
       })
-    }
+    } */
   }
 }

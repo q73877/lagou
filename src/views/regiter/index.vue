@@ -11,7 +11,7 @@
 
       <van-field v-model="password" type="password" placeholder="请输入密码" />
     </van-cell-group>
-    <van-button type="primary">注册</van-button>
+    <van-button type="primary" @click="handres">注册</van-button>
   </div>
 </template>
 <style lang="scss">
@@ -53,12 +53,33 @@
 </style>
 
 <script>
+import axios from "axios";
+import bcryptjs from "bcryptjs";
 export default {
   data() {
     return {
       username: "",
       password: ""
     };
+  },
+  methods: {
+    handres() {
+      axios
+        .post("http://localhost:3000/user", {
+          username: this.username,
+          password: bcryptjs.hashSync(this.password, 10)
+        })
+        .then(response => {
+          console.log(response);
+          if (response.status === 201) {
+            alert("注册成功");
+            let redirect = this.$route.query.redirect || "/login";
+            this.$router.replace(redirect);
+          } else {
+            alert("注册失败");
+          }
+        });
+    }
   }
 };
 </script>

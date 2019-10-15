@@ -142,7 +142,7 @@ export default {
     }
   },
   created() {
-    console.log(this.haslogin);
+    // console.log(this.haslogin);
     if (this.haslogin) {
       this.islogin = true;
     }
