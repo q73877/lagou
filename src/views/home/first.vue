@@ -7,7 +7,12 @@
         <router-link to="/editor" class="editor-a">编辑</router-link>
       </div>
       <ul class="list">
-        <li v-for="film in filmList" :key="film.id">
+        <router-link
+          tag="li"
+          v-for="film in filmList"
+          :key="film.id"
+          :to="{path:'/film',query:{ id:film.id }}"
+        >
           <img :src="film.img" />
           <div>
             <h2>{{ film.title }}</h2>
@@ -17,7 +22,7 @@
             </p>
             <span class="a-time">{{ film.ltime }}</span>
           </div>
-        </li>
+        </router-link>
       </ul>
     </div>
   </div>

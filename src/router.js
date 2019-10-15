@@ -60,7 +60,7 @@ const router = new Router({
     },
     {
       // 公司详情页面
-      path: '/film/:id',
+      path: '/film',
       component: () => import('./views/film/index.vue')
     },
     {
@@ -155,7 +155,6 @@ router.beforeEach((to, from, next) => {
 
   if (to.meta.needLogin && !userInfo) {
     // 要去登录
-    // next('/login')
     next({
       path: '/login',
       query: {
@@ -166,5 +165,6 @@ router.beforeEach((to, from, next) => {
     next()
   }
 })
+
 
 export default router
