@@ -134,7 +134,7 @@
       position: absolute;
       left: 0;
       top: 0;
-      heihgt: 100%;
+      height: 100%;
       width: 40px;
       .corner {
         width: 9px;
@@ -150,7 +150,7 @@
       position: absolute;
       right: 0;
       top: 0;
-      heihgt: 100%;
+      height: 100%;
       width: 40px;
       .corner {
         width: 17px;
