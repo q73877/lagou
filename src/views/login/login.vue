@@ -76,14 +76,24 @@ export default {
           });
           if (tmp) {
             // 登录成功
-            console.log("ggg");
-            /*  window.localStorage.setItem(
-              "userInfo",
-              JSON.stringify({ username: JSON.stringify(username) })
-            );
-            let redirect = this.$route.query.redirect || "/first";
-            this.$router.replace(redirect);
-            this.setlogin(window.localStorage.getItem("userInfo")); */
+            // console.log("ggg");
+            let psd = response.data.find(item => {
+              return bcryptjs.compareSync(that.password, item.password);
+            });
+            if (psd) {
+              //console.log("psd");
+
+              window.localStorage.setItem(
+                "userInfo",
+                JSON.stringify({ username: JSON.stringify(that.username) })
+              );
+              alert("登录成功");
+              let redirect = this.$route.query.redirect || "/first";
+              this.$router.replace(redirect);
+              this.setlogin(window.localStorage.getItem("userInfo"));
+            }
+          } else {
+            alert("用户名或密码错误");
           }
         }
       });
