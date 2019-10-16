@@ -10,7 +10,7 @@
         </li>
         <li>
           <span class="header">工作地点</span>
-          <router-link to="/editor/job" class="desc">
+          <router-link to="/editor/city" class="desc">         
             <em class="empty">请选择工作地点</em>
           </router-link>
         </li>
