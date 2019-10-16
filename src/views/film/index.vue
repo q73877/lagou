@@ -419,7 +419,9 @@ export default {
     goBack(){
       this.$router.back()
     },
-    pttfn() {},
+    pttfn() {
+
+    },
 
   },
   created() {

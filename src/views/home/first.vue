@@ -25,14 +25,12 @@
         </router-link>
       </ul>
     </div>
+    <div class="loading" @click="addLodding">加载更多</div>
   </div>
 </template>
 
 <style lang="scss">
 .page-home-first {
-  .content-f {
-    margin-bottom: 45px;
-  }
   .custom-info {
     border-bottom: 1px solid #e8e8e8;
     height: 43px;
@@ -105,6 +103,11 @@
       }
     }
   }
+  .loading {
+    height: 52px;
+    line-height: 50px;
+    text-align: center;
+  }
 }
 </style>
 
@@ -115,16 +118,9 @@ import { mapState, mapActions } from "vuex";
 export default {
   computed: {
     ...mapState("film", ["filmList"])
-  }
-  /* methods: {
-    ...mapActions("film", ["getFilmList"])
   },
-  created() { */
-  /* axios.get("http://localhost:3000/posts").then(response => {
-      console.log(response.data);
-    }); */
-  //this.getFilmList();
-  //console.log(this.getFilmList);
-  //}
+  methods: {
+    addLodding() {}
+  }
 };
 </script>

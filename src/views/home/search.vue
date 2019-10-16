@@ -129,30 +129,28 @@ export default {
     };
   },
   computed: {
-    ...mapState("film", ["filmList"])
+    ...mapState("film", ["filmSearch"])
   },
   methods: {
-    //...mapActions("film", ["getFilmList"]),
+    ...mapActions("film", ["getSearch"]),
     handsearch() {
       if (!this.searchVal) {
         return [];
       }
-      this.search = this.filmList.filter(item => {
+      this.search = this.filmSearch.filter(item => {
         return (
-          console.log("aa"),
+          //console.log("aa"),
           item.title.indexOf(this.searchVal) > -1 ||
-            item.job.indexOf(this.searchVal) > -1
+          item.job.indexOf(this.searchVal) > -1
         );
       });
+      //console.log(this.filmSearch);
       //return tmp;
     }
   },
-  /*  computed: {
-    ...mapState("film", ["search"])
-  }, */
   created() {
-    //this.getFilmList();
-    console.log(this.filmList);
+    this.getSearch();
+    //console.log(this.filmSearch);
   }
 };
 </script>

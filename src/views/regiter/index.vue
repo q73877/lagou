@@ -70,7 +70,7 @@ export default {
           password: bcryptjs.hashSync(this.password, 10)
         })
         .then(response => {
-          console.log(response);
+          //console.log(response);
           if (response.status === 201) {
             alert("注册成功");
             let redirect = this.$route.query.redirect || "/login";

@@ -6,7 +6,7 @@ export default {
   state: {
     filmList: [], // 列表
     haslogin: '',
-    search: []
+    filmSearch: []
   },
   mutations: {
     // 默认页公司列表
@@ -20,7 +20,7 @@ export default {
     },
     // 搜索列表
     searchList(state, payload) {
-      state.search = payload
+      state.filmSearch = payload
     }
   },
   actions: {
@@ -33,8 +33,8 @@ export default {
 
       axios.get('http://localhost:3000/posts', {
         params: {
-          pageNum: 1,
-          pageSize: 10
+          _page: 1,
+          _limit: 10
         }
       }).then(response => {
         // console.log(response.data)
@@ -45,37 +45,31 @@ export default {
       })
     },
     setlogin({ commit, state }, payload) {
-      // commit('setIslogin', window.localStorage.getItem('userInfo'))
       commit('setIslogin', payload)
       // console.log('aaa')
 
     },
-    /* getSearch({ commit, state }, payload) {
+    getSearch({ commit, state }, payload) {
       Toast.loading({
         mask: true,
         duration: 0, // 不让他自动消失
         message: '加载中...'
       })
 
-      axios.get('http://localhost:3000/posts', {
-        params: {
-          title_like: payload,
-          // job_like: payload
-        }
-      }).then(response => {
-        if (payload != '') {
-          commit('searchList', response.data)
-          console.log(response.data)
-          // console.log('aa')
+      axios.get('http://localhost:3000/posts').then(response => {
 
-        } else {
-          // console.log('bbb')
-          commit('searchList', [])
-        }
+        commit('searchList', response.data)
+        //console.log(response.data)
+        // console.log('aa')
+
+
+        // console.log('bbb')
+        //commit('searchList', [])
+
         Toast.clear()
 
 
       })
-    } */
+    }
   }
 }

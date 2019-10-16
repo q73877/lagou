@@ -12,7 +12,7 @@
         <div class="headcon">
           <img src="//www.lgstatic.com/images/myresume/default_headpic.png" />
         </div>
-        <div class="name">名字</div>
+        <div class="name">{{this.haslogin.username}}</div>
       </div>
     </div>
     <div class="buttons">
@@ -143,6 +143,10 @@ export default {
   },
   created() {
     // console.log(this.haslogin);
+    let user = window.localStorage.getItem("userInfo");
+    if (user) {
+      this.setlogin(JSON.parse(user));
+    }
     if (this.haslogin) {
       this.islogin = true;
     }

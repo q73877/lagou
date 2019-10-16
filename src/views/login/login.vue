@@ -85,12 +85,14 @@ export default {
 
               window.localStorage.setItem(
                 "userInfo",
-                JSON.stringify({ username: JSON.stringify(that.username) })
+                JSON.stringify({ username: that.username })
               );
               alert("登录成功");
               let redirect = this.$route.query.redirect || "/first";
               this.$router.replace(redirect);
               this.setlogin(window.localStorage.getItem("userInfo"));
+            } else {
+              alert("用户名或密码错误");
             }
           } else {
             alert("用户名或密码错误");
