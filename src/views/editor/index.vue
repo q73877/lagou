@@ -3,9 +3,12 @@
     <!-- 一级路由页面，编辑定制职位页面 -->
     <header id="header">
       设置定制信息
+    <router-link to="/editor" >
       <div class="left">
         <span class="corner"></span>
       </div>
+    </router-link>
+
     </header>
     <router-view></router-view>
   </div>

@@ -4,25 +4,25 @@
         <ul class="custom-info">
             <li>
                 <span class="header">职位类型</span>               
-                <router-link to="" class="desc">
+                <router-link to="/editor/job" class="desc">
                     <em class="empty">请选择期望职位</em>
                 </router-link>              
             </li>
             <li>
                 <span class="header">工作地点</span>
-                <router-link to="" class="desc">
+                <router-link to="/editor/job" class="desc">
                     <em class="empty">请选择工作地点</em>
                 </router-link> 
             </li>
             <li>
                 <span class="header">期望薪水</span>
-                <router-link to="" class="desc">
+                <router-link to="/editor/salary" class="desc">
                     <em class="empty">请选择期望薪水</em>
                 </router-link> 
             </li>
             <li>
                 <span class="header">公司规模</span>
-                <router-link to="" class="desc">
+                <router-link to="/editor/stages" class="desc">
                     <em class="empty">请选择公司规模</em>
                 </router-link> 
             </li>
