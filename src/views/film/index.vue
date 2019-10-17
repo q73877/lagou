@@ -47,7 +47,7 @@
             <span class="text">{{ filmobj.education }}</span>
           </span>
         </div>
-        <!-- 诱惑 -->
+        <!-- 职位诱惑 -->
         <div class="temptation">{{ filmobj.ptt }}</div>
       </div>
 
@@ -108,7 +108,7 @@
         <ul class="list"></ul>
         <a class="eval-all" href="/user/expsList_6460970.html"></a>
       </div>
-      <van-popup v-model="show" :overlay="false" class="toudi" position="top">投递成功</van-popup>
+      <!-- <van-popup v-model="show" :overlay="false" class="toudi" position="top">投递成功</van-popup> -->
       <div class="fix_btn_group">
         <div class="deliver deliver_resume rows_bar" @click="pttfn">{{istoudi}}</div>
       </div>
@@ -401,15 +401,10 @@ export default {
   data() {
     return {
       id: this.$route.query.id,
-      show: false,
+      // show: false,
       istoudi: "投递简历"
     };
   },
-  /* watch: {
-    istoudi(newVal, oldVal) {
-      return (this.istoudi = newVal);
-    }
-  }, */
   computed: {
     ...mapState("film", ["filmList"]),
     filmobj() {
@@ -429,31 +424,40 @@ export default {
     pttfn() {
       let user = JSON.parse(window.localStorage.getItem("userInfo"));
       let that = this;
+      let toudi = Array;
       if (user) {
         user = user.username;
         let toudiaa = user + "id";
         // 使用时间格式化组件
         let yy = new Date();
         let time = moment(yy).format("MM-DD HH:mm");
-        let toudi = JSON.parse(window.localStorage.getItem(toudiaa));
-        console.log(time);
-        let isid = toudi.find(item => {
-          return item.id == that.id;
-        });
+
+        toudi = JSON.parse(window.localStorage.getItem(toudiaa));
+        //console.log(this.id);
         if (toudi) {
+          console.log(toudi);
+          let isid = toudi.find(item => {
+            return item.id == that.id;
+          });
+
           if (isid) {
             this.istoudi = "已投递";
+            this.$toast.fail("请勿重复投递");
             //console.log(toudi);
             return;
           } else {
-            this.show = true;
+            this.$toast.success("投递成功");
+            // this.show = true;
             this.istoudi = "已投递";
+            //console.log("aaa");
             toudi.push({ id: this.id, time: time });
-            setTimeout(() => {
-              that.show = false;
-            }, 2000);
           }
+        } else {
+          this.$toast.success("投递成功");
+          this.istoudi = "已投递";
+          toudi = [{ id: this.id, time: time }];
         }
+        console.log(toudi);
         window.localStorage.setItem(toudiaa, JSON.stringify(toudi));
       } else {
         this.$router.push({ path: "/login" });

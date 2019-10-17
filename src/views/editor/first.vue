@@ -5,12 +5,12 @@
         <li>
           <span class="header">职位类型</span>
           <router-link to="/editor/job" class="desc">
-            <em class="empty">请选择期望职位</em>
+            <em class="empty">{{msg}}</em>
           </router-link>
         </li>
         <li>
           <span class="header">工作地点</span>
-          <router-link to="/editor/city" class="desc">         
+          <router-link to="/editor/city" class="desc">
             <em class="empty">请选择工作地点</em>
           </router-link>
         </li>
@@ -79,3 +79,34 @@
   }
 }
 </style>
+
+<script>
+export default {
+  data() {
+    return {
+      msg: "请选择期望职位"
+    };
+  },
+  /* computed: {
+    job() {
+      return this.$route.params.job || "请选择期望职位";
+    }
+  }, */
+  methods: {
+    getParams() {
+      // 取到路由带过来的参数
+      let routerParams = this.$route.params.job;
+      // 将数据放在当前组件的数据内
+      this.msg = routerParams;
+    }
+  },
+  /*   watch: {
+    // 监测路由变化,只要变化了就调用获取路由参数方法将数据存储本组件即可
+    $route: "getParams"
+  }, */
+  created() {
+    this.getParams();
+    console.log(this.$route.params);
+  }
+};
+</script>

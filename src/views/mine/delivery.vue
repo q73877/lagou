@@ -1,7 +1,15 @@
 <template>
   <div class="page-mine-delivery">
     <!-- 二级路由页面，个人中心-投递 -->
-    <div class="header">我的投递</div>
+    <header id="header">
+      我的投递
+      <div class="left">
+        <span class="corner" @click="goBack"></span>
+      </div>
+      <div class="right">
+        <span class="corner"></span>
+      </div>
+    </header>
     <ul class="list">
       <router-link
         tag="li"
@@ -14,7 +22,10 @@
           <h2>{{ele.title}}</h2>
           <p>
             <span>{{ele.job}} [{{ele.address}}]</span>
-            <span>{{ele.wage}}</span>
+            <span>
+              {{ele.wage}}
+              <em @click.stop="dele(ele.id)">删除</em>
+            </span>
           </p>
           <span class="a-time">投递时间：{{ ele.time }}</span>
         </div>
@@ -25,14 +36,46 @@
 
 <style lang="scss">
 .page-mine-delivery {
-  .header {
+  #header {
     height: 45px;
     line-height: 45px;
-    background: #00b38a;
-    text-align: center;
+    background-color: #00b38a;
     color: #fff;
-    font-size: 20px;
+    font-size: 18px;
+    text-align: center;
     position: relative;
+    .left {
+      position: absolute;
+      left: 0;
+      top: 0;
+      height: 100%;
+      width: 40px;
+      .corner {
+        width: 9px;
+        height: 20px;
+        margin: 13px auto 0 auto;
+        background: url(https://www.lgstatic.com/images/mobile/asset/common/img/icon2.png)
+          no-repeat -1.5px -20.5px;
+        background-size: 250px 250px;
+        display: inline-block;
+      }
+    }
+    .right {
+      position: absolute;
+      right: 0;
+      top: 0;
+      height: 100%;
+      width: 40px;
+      .corner {
+        width: 17px;
+        height: 20px;
+        margin: 13px auto 0 auto;
+        background: url(https://www.lgstatic.com/images/mobile/asset/common/img/icon2.png)
+          no-repeat -60px -46.5px;
+        background-size: 250px 250px;
+        display: inline-block;
+      }
+    }
   }
   .list {
     li {
@@ -69,6 +112,9 @@
             float: right;
             font-size: 16px;
             color: #00b38a;
+            em {
+              color: red;
+            }
           }
         }
       }
@@ -84,30 +130,56 @@
 <script>
 import { mapState } from "vuex";
 export default {
-  /* data() {
+  data() {
     return {
-      list: []
+      toudi: []
     };
+  },
+  methods: {
+    goBack() {
+      this.$router.back();
+    },
+    dele(id) {
+      let user = JSON.parse(window.localStorage.getItem("userInfo"));
+      user = user.username + "id";
+      this.toudi = JSON.parse(window.localStorage.getItem(user));
+      //console.log(this.toudi);
+      let num = this.toudi.find((item, index) => {
+        if (item.id == id) {
+          return index;
+        }
+      });
+      this.toudi.splice(num, 1);
+      //console.log(this.toudi);
+      window.localStorage.setItem(user, JSON.stringify(this.toudi));
+      this.$toast.success("删除成功");
+    }
+  },
+  /*  watch: {
+    list: {
+      handler(val) {}
+    }
   }, */
   computed: {
     ...mapState("film", ["filmSearch"]),
     list() {
       //console.log(this.filmSearch);
+
       let user = JSON.parse(window.localStorage.getItem("userInfo")) || [];
       user = user.username || "";
-      let id = JSON.parse(window.localStorage.getItem(user + "id")) || [];
+      this.toudi = JSON.parse(window.localStorage.getItem(user + "id")) || [];
       let tmp = [];
       this.filmSearch.forEach(ele => {
-        id.forEach(item => {
+        this.toudi.forEach(item => {
           if (ele.id == item.id) {
             ele.time = item.time;
             tmp.push(ele);
           }
         });
       });
-      console.log(id);
-      console.log(tmp);
       return tmp;
+
+      // return tmp;
     }
   }
   /* created() {

@@ -79,6 +79,7 @@ const router = new Router({
         {
           //定制页主页
           path: 'position',
+          name: 'position',
           component: () => import('./views/editor/first.vue'),
           meta: {
             needLogin: true

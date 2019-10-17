@@ -2,7 +2,6 @@
   <div class="page-home-login">
     <!-- 一级路由页面，登录页面 -->
     <header>
-      <van-popup v-model="show" :overlay="false" class="toudi">{{loginView}}</van-popup>
       <h2>登录拉勾</h2>
       <!-- vant 组件 -->
       <router-link to="/regiter" tag="span">注册</router-link>
@@ -70,9 +69,9 @@ export default {
   data() {
     return {
       username: "",
-      password: "",
-      show: false,
-      loginView: ""
+      password: ""
+      // show: false,
+      //loginView: ""
     };
   },
   methods: {
@@ -98,34 +97,22 @@ export default {
                 "userInfo",
                 JSON.stringify({ username: that.username })
               );
-              that.show = true;
+              //that.show = true;
               let redirect = this.$route.query.redirect || "/first";
 
               that.setlogin(window.localStorage.getItem("userInfo"));
-              (that.loginView = "登录成功"),
-                setTimeout(() => {
-                  that.show = false;
-                  this.$router.replace(redirect);
-                }, 1000);
+
+              this.$toast.success("登录成功");
+              this.$router.replace(redirect);
             } else {
-              (that.loginView = "用户名或密码错误"), (that.show = true);
-              setTimeout(() => {
-                that.show = false;
-              }, 1500);
+              this.$toast.fail("用户名或密码错误");
             }
           } else {
-            (that.loginView = "用户名或密码错误"), (that.show = true);
-            setTimeout(() => {
-              that.show = false;
-            }, 1500);
+            this.$toast.fail("用户名或密码错误");
           }
         }
       });
     }
-  },
-  mounted() {
-    //console.log(this.setlogin);
-  },
-  created() {}
+  }
 };
 </script>

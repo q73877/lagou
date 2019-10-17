@@ -2,7 +2,6 @@
   <div class="page-home-login">
     <!-- 一级路由页面，登录页面 -->
     <header>
-      <van-popup v-model="show" :overlay="false" class="toudi">{{loginView}}</van-popup>
       <h2>注册拉勾</h2>
       <!-- vant 组件 -->
       <router-link to="/login" tag="span">登录</router-link>
@@ -69,9 +68,7 @@ export default {
   data() {
     return {
       username: "",
-      password: "",
-      show: false,
-      loginView: ""
+      password: ""
     };
   },
   methods: {
@@ -83,20 +80,13 @@ export default {
           password: bcryptjs.hashSync(this.password, 10)
         })
         .then(response => {
-          //console.log(response);
           if (response.status === 201) {
             let redirect = this.$route.query.redirect || "/login";
+            this.$toast.success("注册成功");
 
-            (that.loginView = "注册成功"), (that.show = true);
-            setTimeout(() => {
-              that.show = false;
-              this.$router.replace(redirect);
-            }, 1500);
+            this.$router.replace(redirect);
           } else {
-            (that.loginView = "注册失败"), (that.show = true);
-            setTimeout(() => {
-              that.show = false;
-            }, 1500);
+            this.$toast.fail("注册失败");
           }
         });
     }
