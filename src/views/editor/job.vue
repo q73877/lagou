@@ -60,8 +60,8 @@
         background-size: 250px 250px;
       }
       .right{
-        left:-20px;
-        top:-2px;
+        right:-14px;
+        top:15px;
         background:url(https://www.lgstatic.com/images/mobile/asset/common/img/icon.png) no-repeat -119.5px -4px;
         background-size: 250px 250px;
       }      

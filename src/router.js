@@ -77,6 +77,7 @@ const router = new Router({
       component: () => import('./views/editor/index.vue'),
       children: [
         {
+          //定制页主页
           path: 'position',
           component: () => import('./views/editor/first.vue'),
           meta: {
@@ -84,6 +85,7 @@ const router = new Router({
           }
         },
         {
+          //薪水
           path: 'salary',
           component: () => import('./views/editor/salary.vue'),
           meta: {
@@ -91,6 +93,16 @@ const router = new Router({
           }
         },
         {
+          //地点
+          path: 'city',
+          component: () => import('./views/editor/city.vue'),
+          meta: {
+            needLogin: true
+          }
+        },
+
+        {
+          //规模
           path: 'stages',
           component: () => import('./views/editor/stages.vue'),
           meta: {
@@ -98,6 +110,7 @@ const router = new Router({
           }
         },
         {
+          //职位
           path: 'job',
           component: () => import('./views/editor/job.vue'),
           meta: {
