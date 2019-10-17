@@ -4,9 +4,9 @@ import { Toast } from 'vant'
 export default {
   namespaced: true,
   state: {
-    filmList: [], // 列表
-    haslogin: '',
-    filmSearch: []
+    filmList: [], // 列表页的显示
+    haslogin: '',// 登录判断
+    filmSearch: [] // 用于搜索的列表
   },
   mutations: {
     // 默认页公司列表
@@ -24,6 +24,7 @@ export default {
     }
   },
   actions: {
+    // 列表也连接数据
     getFilmList({ commit, state }, payload) {
       Toast.loading({
         mask: true,
@@ -34,7 +35,7 @@ export default {
       axios.get('http://localhost:3000/posts', {
         params: {
           _page: 1,
-          _limit: 10
+          _limit: payload || 10
         }
       }).then(response => {
         // console.log(response.data)
@@ -44,11 +45,7 @@ export default {
         Toast.clear()
       })
     },
-    setlogin({ commit, state }, payload) {
-      commit('setIslogin', payload)
-      // console.log('aaa')
-
-    },
+    //搜索链接数据
     getSearch({ commit, state }, payload) {
       Toast.loading({
         mask: true,
@@ -70,6 +67,13 @@ export default {
 
 
       })
+    },
+    // 登录状态判断
+    setlogin({ commit, state }, payload) {
+      commit('setIslogin', payload)
+      // console.log('aaa')
+
     }
+
   }
 }

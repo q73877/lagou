@@ -2,6 +2,7 @@
   <div class="page-home-login">
     <!-- 一级路由页面，登录页面 -->
     <header>
+      <van-popup v-model="show" :overlay="false" class="toudi">{{loginView}}</van-popup>
       <h2>注册拉勾</h2>
       <!-- vant 组件 -->
       <router-link to="/login" tag="span">登录</router-link>
@@ -21,6 +22,15 @@
   box-sizing: border-box;
   padding: 30px;
   margin: 0 auto;
+  .toudi {
+    color: blue;
+    font-size: 24px;
+    background: #ccc;
+    width: 100%;
+    height: 50px;
+    text-align: center;
+    line-height: 50px;
+  }
   header {
     position: relative;
     top: 30px;
@@ -59,11 +69,14 @@ export default {
   data() {
     return {
       username: "",
-      password: ""
+      password: "",
+      show: false,
+      loginView: ""
     };
   },
   methods: {
     handres() {
+      let that = this;
       axios
         .post("http://localhost:3000/user", {
           username: this.username,
@@ -72,11 +85,18 @@ export default {
         .then(response => {
           //console.log(response);
           if (response.status === 201) {
-            alert("注册成功");
             let redirect = this.$route.query.redirect || "/login";
-            this.$router.replace(redirect);
+
+            (that.loginView = "注册成功"), (that.show = true);
+            setTimeout(() => {
+              that.show = false;
+              this.$router.replace(redirect);
+            }, 1500);
           } else {
-            alert("注册失败");
+            (that.loginView = "注册失败"), (that.show = true);
+            setTimeout(() => {
+              that.show = false;
+            }, 1500);
           }
         });
     }

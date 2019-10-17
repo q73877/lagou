@@ -108,22 +108,24 @@
         <ul class="list"></ul>
         <a class="eval-all" href="/user/expsList_6460970.html"></a>
       </div>
-
+      <van-popup v-model="show" :overlay="false" class="toudi" position="top">投递成功</van-popup>
       <div class="fix_btn_group">
-        <div
-          class="deliver deliver_resume rows_bar"
-          data-lg-tj-id="19v6"
-          data-lg-tj-no="0020"
-          data-lg-tj-cid="6460970"
-          @click="pttfn"
-        >投递简历</div>
-          class="deliver deliver_resume rows_bar">投递简历</div>
+        <div class="deliver deliver_resume rows_bar" @click="pttfn">{{istoudi}}</div>
       </div>
     </div>
   </div>
 </template>
 <style lang="scss">
 .page-film {
+  .toudi {
+    color: blue;
+    font-size: 24px;
+    background: #ccc;
+    width: 100%;
+    height: 50px;
+    text-align: center;
+    line-height: 50px;
+  }
   #header {
     height: 45px;
     line-height: 45px;
@@ -376,6 +378,7 @@
       background-color: rgba(255, 255, 255, 0.8);
     }
     .deliver {
+      display: block;
       width: 100%;
       background-color: #00b38a;
       color: #fff;
@@ -389,53 +392,80 @@
 
 
 <script>
-import { mapState, mapActions } from "vuex";
-import { Toast } from 'vant'
+import { mapState } from "vuex";
+import { Toast } from "vant";
+import moment from "moment";
 export default {
   //修改在浏览器-vue 上显示的文件名 index -- File
   name: "Film",
   data() {
     return {
       id: this.$route.query.id,
-      show:false
-      //list: ""
+      show: false,
+      istoudi: "投递简历"
     };
   },
+  /* watch: {
+    istoudi(newVal, oldVal) {
+      return (this.istoudi = newVal);
+    }
+  }, */
   computed: {
     ...mapState("film", ["filmList"]),
     filmobj() {
-
       let that = this;
       let tmp = this.filmList.find(item => {
         // console.log('1aa')
         return item.id === that.id;
       });
-     Toast.clear()
+      Toast.clear();
       return tmp;
     }
   },
   methods: {
-    // ...mapActions('film',['getFilmList']),
-    goBack(){
-      this.$router.back()
+    goBack() {
+      this.$router.back();
     },
     pttfn() {
-
-    },
-
+      let user = JSON.parse(window.localStorage.getItem("userInfo"));
+      let that = this;
+      if (user) {
+        user = user.username;
+        let toudiaa = user + "id";
+        // 使用时间格式化组件
+        let yy = new Date();
+        let time = moment(yy).format("MM-DD HH:mm");
+        let toudi = JSON.parse(window.localStorage.getItem(toudiaa));
+        console.log(time);
+        let isid = toudi.find(item => {
+          return item.id == that.id;
+        });
+        if (toudi) {
+          if (isid) {
+            this.istoudi = "已投递";
+            //console.log(toudi);
+            return;
+          } else {
+            this.show = true;
+            this.istoudi = "已投递";
+            toudi.push({ id: this.id, time: time });
+            setTimeout(() => {
+              that.show = false;
+            }, 2000);
+          }
+        }
+        window.localStorage.setItem(toudiaa, JSON.stringify(toudi));
+      } else {
+        this.$router.push({ path: "/login" });
+      }
+    }
   },
   created() {
-     Toast.loading({
-        mask: true,
-        duration: 0, // 不让他自动消失
-        message: '加载中...'
-      })
-    // this.getFilmList()
-    //this.id = this.$route.query.id;
-    //this.list = this.filmList;
-    //console.log(this.id);
-    //console.log(this.filmList);
-    //console.log(this.list);
+    Toast.loading({
+      mask: true,
+      duration: 0, // 不让他自动消失
+      message: "加载中..."
+    });
   }
 };
 </script>

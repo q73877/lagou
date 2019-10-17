@@ -9,10 +9,12 @@
 import { mapActions } from "vuex";
 export default {
   methods: {
-    ...mapActions("film", ["getFilmList"])
+    ...mapActions("film", ["getFilmList"]),
+    ...mapActions("film", ["getSearch"])
   },
   created() {
     this.getFilmList();
+    this.getSearch();
   }
 };
 </script>

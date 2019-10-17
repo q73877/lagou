@@ -2,6 +2,7 @@
   <div class="page-home-login">
     <!-- 一级路由页面，登录页面 -->
     <header>
+      <van-popup v-model="show" :overlay="false" class="toudi">{{loginView}}</van-popup>
       <h2>登录拉勾</h2>
       <!-- vant 组件 -->
       <router-link to="/regiter" tag="span">注册</router-link>
@@ -21,6 +22,15 @@
   box-sizing: border-box;
   padding: 30px;
   margin: 0 auto;
+  .toudi {
+    color: blue;
+    font-size: 24px;
+    background: #ccc;
+    width: 100%;
+    height: 50px;
+    text-align: center;
+    line-height: 50px;
+  }
   header {
     position: relative;
     top: 30px;
@@ -60,7 +70,9 @@ export default {
   data() {
     return {
       username: "",
-      password: ""
+      password: "",
+      show: false,
+      loginView: ""
     };
   },
   methods: {
@@ -75,7 +87,6 @@ export default {
             return item.username == that.username;
           });
           if (tmp) {
-            // 登录成功
             // console.log("ggg");
             let psd = response.data.find(item => {
               return bcryptjs.compareSync(that.password, item.password);
@@ -87,15 +98,26 @@ export default {
                 "userInfo",
                 JSON.stringify({ username: that.username })
               );
-              alert("登录成功");
+              that.show = true;
               let redirect = this.$route.query.redirect || "/first";
-              this.$router.replace(redirect);
-              this.setlogin(window.localStorage.getItem("userInfo"));
+
+              that.setlogin(window.localStorage.getItem("userInfo"));
+              (that.loginView = "登录成功"),
+                setTimeout(() => {
+                  that.show = false;
+                  this.$router.replace(redirect);
+                }, 1000);
             } else {
-              alert("用户名或密码错误");
+              (that.loginView = "用户名或密码错误"), (that.show = true);
+              setTimeout(() => {
+                that.show = false;
+              }, 1500);
             }
           } else {
-            alert("用户名或密码错误");
+            (that.loginView = "用户名或密码错误"), (that.show = true);
+            setTimeout(() => {
+              that.show = false;
+            }, 1500);
           }
         }
       });

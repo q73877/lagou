@@ -25,7 +25,7 @@
         </router-link>
       </ul>
     </div>
-    <div class="loading" @click="addLodding">加载更多</div>
+    <div class="loading" @click="addLodding">{{loadele}}</div>
   </div>
 </template>
 
@@ -116,11 +116,36 @@ import { mapState, mapActions } from "vuex";
 // import axios from "axios";
 
 export default {
+  data() {
+    return {
+      num: 10,
+      loadele: "加载更多"
+    };
+  },
   computed: {
-    ...mapState("film", ["filmList"])
+    ...mapState("film", ["filmList"]),
+    ...mapState("film", ["filmSearch"])
+  },
+  watch: {
+    num(newVal) {
+      if (this.filmSearch.length <= newVal) {
+        this.loadele = "没有更多了！";
+        return;
+      }
+    }
   },
   methods: {
-    addLodding() {}
+    ...mapActions("film", ["getFilmList"]),
+    addLodding() {
+      // alert("dd");
+      console.log(this.filmSearch.length);
+      if (this.filmSearch.length <= this.num) {
+        return;
+      }
+      this.num += 10;
+      console.log(this.num);
+      this.getFilmList(this.num);
+    }
   }
 };
 </script>
