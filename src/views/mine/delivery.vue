@@ -139,35 +139,33 @@ export default {
     goBack() {
       this.$router.back();
     },
+    // 点击删除按钮
     dele(id) {
-      let user = JSON.parse(window.localStorage.getItem("userInfo"));
-      user = user.username + "id";
+      // console.log(this.haslogin);
+      //
+      let user = this.haslogin.username + "id";
       this.toudi = JSON.parse(window.localStorage.getItem(user));
       //console.log(this.toudi);
+      // 获取当前删除的 id
       let num = this.toudi.find((item, index) => {
         if (item.id == id) {
           return index;
         }
       });
+      //删除localStorage 里相对应的投递
       this.toudi.splice(num, 1);
       //console.log(this.toudi);
       window.localStorage.setItem(user, JSON.stringify(this.toudi));
       this.$toast.success("删除成功");
     }
   },
-  /*  watch: {
-    list: {
-      handler(val) {}
-    }
-  }, */
-  computed: {
-    ...mapState("film", ["filmSearch"]),
-    list() {
-      //console.log(this.filmSearch);
 
-      let user = JSON.parse(window.localStorage.getItem("userInfo")) || [];
-      user = user.username || "";
-      this.toudi = JSON.parse(window.localStorage.getItem(user + "id")) || [];
+  computed: {
+    ...mapState("film", ["filmSearch", "haslogin"]),
+    // 获取存在 localStorage 投递的公司的 列表
+    list() {
+      let user = this.haslogin.username + "id" || "";
+      this.toudi = JSON.parse(window.localStorage.getItem(user)) || [];
       let tmp = [];
       this.filmSearch.forEach(ele => {
         this.toudi.forEach(item => {
@@ -178,12 +176,7 @@ export default {
         });
       });
       return tmp;
-
-      // return tmp;
     }
   }
-  /* created() {
-    //console.log(this.list);
-  } */
 };
 </script>

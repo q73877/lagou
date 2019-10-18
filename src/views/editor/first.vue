@@ -4,26 +4,28 @@
       <ul class="custom-info">
         <li>
           <span class="header">职位类型</span>
-          <router-link to="/editor/job" class="desc">
-            <em class="empty">{{msg}}</em>
-          </router-link>
+          <keep-alive>
+            <router-link to="/editor/job" class="desc">
+              <em class="empty">{{list[0].job}}</em>
+            </router-link>
+          </keep-alive>
         </li>
         <li>
           <span class="header">工作地点</span>
           <router-link to="/editor/city" class="desc">
-            <em class="empty">请选择工作地点</em>
+            <em class="empty">{{list[0].city}}</em>
           </router-link>
         </li>
         <li>
           <span class="header">期望薪水</span>
           <router-link to="/editor/salary" class="desc">
-            <em class="empty">请选择期望薪水</em>
+            <em class="empty">{{list[0].salary}}</em>
           </router-link>
         </li>
         <li>
           <span class="header">公司规模</span>
           <router-link to="/editor/stages" class="desc">
-            <em class="empty">请选择公司规模</em>
+            <em class="empty">{{list[0].atages}}</em>
           </router-link>
         </li>
       </ul>
@@ -81,32 +83,36 @@
 </style>
 
 <script>
+import { mapState } from "vuex";
 export default {
   data() {
     return {
-      msg: "请选择期望职位"
+      list: [
+        {
+          job: "请选择期望工作",
+          city: "请选择工作地点",
+          salary: "请选择期望薪水",
+          atages: "请选择公司规模"
+        }
+      ]
     };
   },
-  /* computed: {
-    job() {
-      return this.$route.params.job || "请选择期望职位";
-    }
-  }, */
-  methods: {
-    getParams() {
-      // 取到路由带过来的参数
-      let routerParams = this.$route.params.job;
-      // 将数据放在当前组件的数据内
-      this.msg = routerParams;
+  watch: {
+    list(newVal) {
+      return this.jobSearch;
     }
   },
-  /*   watch: {
-    // 监测路由变化,只要变化了就调用获取路由参数方法将数据存储本组件即可
-    $route: "getParams"
-  }, */
+  computed: {
+    ...mapState("film", ["jobSearch"])
+  },
+
   created() {
-    this.getParams();
-    console.log(this.$route.params);
+    if (this.jobSearch.length > 0) {
+      this.list[0].job = this.jobSearch[0].job || "请选择期望工作";
+      this.list[0].city = this.jobSearch[0].city || "请选择工作地点";
+      this.list[0].salary = this.jobSearch[0].salary || "请选择期望薪水";
+      this.list[0].atages = this.jobSearch[0].atages || "请选择公司规模";
+    }
   }
 };
 </script>

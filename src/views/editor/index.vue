@@ -7,6 +7,7 @@
         <span class="corner"></span>
       </div>
     </header>
+
     <router-view></router-view>
   </div>
 </template>
@@ -46,8 +47,16 @@
 export default {
   methods: {
     goBack() {
+      if (this.$route.path == "/editor/position") {
+        this.$router.push("/first");
+        return;
+      }
       this.$router.back();
     }
+  },
+  created() {
+    let aa = this.$route.path;
+    console.log(aa);
   }
 };
 </script>

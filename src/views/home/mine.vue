@@ -120,7 +120,7 @@ import { mapState, mapActions, mapMutations } from "vuex";
 export default {
   data() {
     return {
-      islogin: false
+      islogin: false //判断登录状态
     };
   },
   computed: {
@@ -128,26 +128,21 @@ export default {
   },
   methods: {
     ...mapActions("film", ["setlogin"]),
+    // 点击退出登录
     unlogin() {
       window.localStorage.removeItem("userInfo");
       this.setlogin("");
+      this.islogin = false;
       this.$router.push("/first");
     }
   },
-  watch: {
-    islogin() {
-      if (this.haslogin) {
-        return false;
-      }
-    }
-  },
+
   created() {
-    // console.log(this.haslogin);
+    //console.log(this.haslogin);
+    // 判断 登录状态，
     let user = window.localStorage.getItem("userInfo");
     if (user) {
       this.setlogin(JSON.parse(user));
-    }
-    if (this.haslogin) {
       this.islogin = true;
     }
   }

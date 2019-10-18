@@ -1,11 +1,12 @@
 <template>
   <div class="page-home-login">
-    <!-- 一级路由页面，登录页面 -->
+    <!-- 一级路由页面，注册页面 -->
     <header>
       <h2>注册拉勾</h2>
-      <!-- vant 组件 -->
+      <!-- 点击切换到登陆页面 -->
       <router-link to="/login" tag="span">登录</router-link>
     </header>
+    <!-- vant 组件 输入框 -->
     <van-cell-group>
       <van-field v-model="username" clearable right-icon="question-o" placeholder="请输入用户名" />
 
@@ -63,24 +64,27 @@
 
 <script>
 import axios from "axios";
+// 引入 bcryptjs 密码加盐
 import bcryptjs from "bcryptjs";
 export default {
   data() {
     return {
-      username: "",
-      password: ""
+      username: "", // 绑定用户名输入框
+      password: "" // 绑定密码输入框
     };
   },
   methods: {
+    // 注册按钮 点击事件
     handres() {
       let that = this;
       axios
         .post("http://localhost:3000/user", {
-          username: this.username,
-          password: bcryptjs.hashSync(this.password, 10)
+          username: this.username, // post 请求 向后台发送输入的用户名和密码
+          password: bcryptjs.hashSync(this.password, 10) //对密码加盐之后存入数据库
         })
         .then(response => {
           if (response.status === 201) {
+            // 注册成功之后自动跳转到登陆页面
             let redirect = this.$route.query.redirect || "/login";
             this.$toast.success("注册成功");
 

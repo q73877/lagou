@@ -1,12 +1,14 @@
 import axios from 'axios'
 import { Toast } from 'vant'
+import { stat } from 'fs'
 
 export default {
   namespaced: true,
   state: {
     filmList: [], // 列表页的显示
     haslogin: '',// 登录判断
-    filmSearch: [] // 用于搜索的列表
+    filmSearch: [], // 用于搜索的列表
+    jobSearch: []
   },
   mutations: {
     // 默认页公司列表
@@ -21,6 +23,10 @@ export default {
     // 搜索列表
     searchList(state, payload) {
       state.filmSearch = payload
+    },
+    // 职位定制
+    setSearch(state, payload) {
+      state.jobSearch = payload
     }
   },
   actions: {
@@ -73,6 +79,9 @@ export default {
       commit('setIslogin', payload)
       // console.log('aaa')
 
+    },
+    setJob({ commit, state }, payload) {
+      commit('setSearch', payload)
     }
 
   }

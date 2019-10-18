@@ -110,6 +110,7 @@
 
 
 <script>
+import { mapActions, mapState } from "vuex";
 export default {
   data() {
     return {
@@ -126,16 +127,20 @@ export default {
       ]
     };
   },
+  computed: {
+    ...mapState("film", ["jobSearch"])
+  },
   methods: {
+    ...mapActions("film", ["setJob"]),
     job(aa) {
-      this.$router.push({
-        path: "/editor/position",
-        name: "position",
-        params: {
-          name: "job",
-          job: aa
-        }
-      });
+      let user = this.jobSearch;
+      if (user.length > 0) {
+        user[0].job = aa;
+      } else {
+        user = [{ job: aa }];
+      }
+      this.setJob(user);
+      this.$router.push("/editor/position");
     }
   }
 };

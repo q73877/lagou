@@ -3,9 +3,10 @@
     <!-- 一级路由页面，登录页面 -->
     <header>
       <h2>登录拉勾</h2>
-      <!-- vant 组件 -->
+      <!-- 跳转到注册页面 -->
       <router-link to="/regiter" tag="span">注册</router-link>
     </header>
+    <!-- vant 组件输入框 -->
     <van-cell-group>
       <van-field v-model="username" clearable right-icon="question-o" placeholder="请输入用户名" />
 
@@ -68,39 +69,40 @@ import axios from "axios";
 export default {
   data() {
     return {
-      username: "",
-      password: ""
-      // show: false,
-      //loginView: ""
+      username: "", // 绑定用户名
+      password: "" //绑定密码输入框
     };
   },
   methods: {
-    ...mapActions("film", ["setlogin"]),
+    ...mapActions("film", ["setlogin"]), // 用于向仓库中传入登录信息，用于判断登录状态
     // 点击登录
     handlogin() {
       let that = this;
       axios.get("http://localhost:3000/user").then(response => {
         //console.log(response);
         if (response.status === 200) {
+          // 请求成功之后 ，判断用户名是否存在
           let tmp = response.data.find(item => {
             return item.username == that.username;
           });
           if (tmp) {
-            // console.log("ggg");
+            // 用户名存在时，判断密码是都正确
             let psd = response.data.find(item => {
               return bcryptjs.compareSync(that.password, item.password);
             });
             if (psd) {
               //console.log("psd");
-
+              // 登录校验成功后，向 localStorage 存入用户登录信息
+              // 向仓库中存入登录信息
+              // 默认跳转到登陆页面，路由守卫回到之前页面
               window.localStorage.setItem(
                 "userInfo",
-                JSON.stringify({ username: that.username })
+                JSON.stringify({ username: this.username })
               );
-              //that.show = true;
+
               let redirect = this.$route.query.redirect || "/first";
 
-              that.setlogin(window.localStorage.getItem("userInfo"));
+              that.setlogin(this.username);
 
               this.$toast.success("登录成功");
               this.$router.replace(redirect);

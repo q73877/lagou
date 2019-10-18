@@ -124,15 +124,17 @@ import { mapActions, mapState } from "vuex";
 export default {
   data() {
     return {
-      searchVal: "",
-      search: []
+      searchVal: "", // 绑定搜索框
+      search: [] // 搜索过来的数据列表
     };
   },
   computed: {
+    // 获取仓库中的数据列表
     ...mapState("film", ["filmSearch"])
   },
   methods: {
-    ...mapActions("film", ["getSearch"]),
+    //...mapActions("film", ["getSearch"]),
+    // 点击搜索
     handsearch() {
       if (!this.searchVal) {
         return [];
@@ -140,17 +142,18 @@ export default {
       this.search = this.filmSearch.filter(item => {
         return (
           //console.log("aa"),
+          // 公司名搜索
           item.title.indexOf(this.searchVal) > -1 ||
-          item.job.indexOf(this.searchVal) > -1
+          item.job.indexOf(this.searchVal) > -1 // 职位搜索
         );
       });
       //console.log(this.filmSearch);
       //return tmp;
     }
-  },
-  created() {
-    this.getSearch();
-    //console.log(this.filmSearch);
   }
+  /*   created() {
+    //this.getSearch();
+    //console.log(this.filmSearch);
+  } */
 };
 </script>

@@ -7,6 +7,7 @@
         <router-link to="/editor" class="editor-a">编辑</router-link>
       </div>
       <ul class="list">
+        <!-- 点击之后 query 当前点击的 id 到详情页 -->
         <router-link
           tag="li"
           v-for="film in filmList"
@@ -123,11 +124,14 @@ export default {
     };
   },
   computed: {
+    // 用于每次显示 10 条的列表仓库数据
     ...mapState("film", ["filmList"]),
+    // 用于加载更多并判断是否加载了所有数据
     ...mapState("film", ["filmSearch"])
   },
   watch: {
     num(newVal) {
+      // 监听加载数量 加载所有数据后
       if (this.filmSearch.length <= newVal) {
         this.loadele = "没有更多了！";
         return;
@@ -135,11 +139,14 @@ export default {
     }
   },
   methods: {
+    // 用于向 ajax 传参 加载的条数
     ...mapActions("film", ["getFilmList"]),
+    // 点击加载更多 每次加载 10 条
     addLodding() {
       // alert("dd");
-      console.log(this.filmSearch.length);
+      //console.log(this.filmSearch.length);
       if (this.filmSearch.length <= this.num) {
+        // 加载所有数据后 不在执行调用请求
         return;
       }
       this.num += 10;

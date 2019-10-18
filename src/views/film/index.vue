@@ -407,6 +407,7 @@ export default {
   },
   computed: {
     ...mapState("film", ["filmList"]),
+    // 根据 query 获取到的 id 渲染对应的详情页数据
     filmobj() {
       let that = this;
       let tmp = this.filmList.find(item => {
@@ -421,10 +422,11 @@ export default {
     goBack() {
       this.$router.back();
     },
+    // 点击 投递简历 根据 用户名向 localStorage
     pttfn() {
       let user = JSON.parse(window.localStorage.getItem("userInfo"));
       let that = this;
-      let toudi = Array;
+      // 是否登录状态
       if (user) {
         user = user.username;
         let toudiaa = user + "id";
@@ -432,17 +434,18 @@ export default {
         let yy = new Date();
         let time = moment(yy).format("MM-DD HH:mm");
 
-        toudi = JSON.parse(window.localStorage.getItem(toudiaa));
+        let toudi = JSON.parse(window.localStorage.getItem(toudiaa));
         //console.log(this.id);
+        // 判断是否投递过简历
         if (toudi) {
           console.log(toudi);
           let isid = toudi.find(item => {
             return item.id == that.id;
           });
-
+          // 判断投递的简历里是否有当前的简历
           if (isid) {
             this.istoudi = "已投递";
-            this.$toast.fail("请勿重复投递");
+            this.$toast.fail("请勿重复投递"); // vant 轻提示
             //console.log(toudi);
             return;
           } else {
@@ -455,9 +458,10 @@ export default {
         } else {
           this.$toast.success("投递成功");
           this.istoudi = "已投递";
+          // 传入投递的 id 和投递时间
           toudi = [{ id: this.id, time: time }];
         }
-        console.log(toudi);
+        //console.log(toudi);
         window.localStorage.setItem(toudiaa, JSON.stringify(toudi));
       } else {
         this.$router.push({ path: "/login" });
