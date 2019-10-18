@@ -22,6 +22,7 @@
   box-sizing: border-box;
   padding: 30px;
   margin: 0 auto;
+  font-size: 18px;
   .toudi {
     color: blue;
     font-size: 24px;
@@ -58,6 +59,7 @@
     width: 100%;
     margin-top: 30px;
     background: #00b38a;
+    font-size: 20px;
   }
 }
 </style>
@@ -78,7 +80,11 @@ export default {
     // 点击登录
     handlogin() {
       let that = this;
-      axios.get("http://localhost:3000/user").then(response => {
+      if (this.username == "" || this.password == "") {
+        this.$toast.fail("用户名或密码不能为空");
+        return;
+      }
+      axios.get("http://182.254.161.39:3000/user").then(response => {
         //console.log(response);
         if (response.status === 200) {
           // 请求成功之后 ，判断用户名是否存在

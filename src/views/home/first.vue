@@ -108,6 +108,7 @@
     height: 52px;
     line-height: 50px;
     text-align: center;
+    font-size: 18px;
   }
 }
 </style>

@@ -26,14 +26,14 @@
       </div>
       <div style="display:flex">
         <router-link to="/user/collection" class="button">
-          <span>邀约！</span>
+          <span>邀约</span>
         </router-link>
         <router-link to="/user/collection" class="button">
           <span>收藏</span>
         </router-link>
       </div>
     </div>
-    <van-button type="primary" @click="unlogin" v-if="islogin">退出登录</van-button>
+    <van-button type="primary" @click="unlogin" v-if="islogin" class="setfont">退出登录</van-button>
   </div>
 </template>
 
@@ -46,6 +46,7 @@
       height: 111px;
       width: 125px;
       margin: 0 auto;
+      font-size: 20px;
       p {
         color: #fff;
         width: 100%;
@@ -88,8 +89,12 @@
         height: 22px;
         line-height: 22px;
         text-align: center;
+        font-size: 16px;
       }
     }
+  }
+  .setfont {
+    font-size: 20px;
   }
   .buttons {
     .button {
@@ -102,6 +107,7 @@
       text-align: center;
       color: #fff;
       margin-top: 10px;
+      font-size: 18px;
       &:nth-child(2) {
         margin-left: 12px;
       }

@@ -56,6 +56,7 @@
       line-height: 46px;
       text-align: center;
       color: #c2cfcc;
+      font-size: 16px;
       &.router-link-active {
         color: #00b38a;
         background: #e7f3f0;

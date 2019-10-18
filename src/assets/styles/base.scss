@@ -1,6 +1,13 @@
-@import './common/reset.scss';
+@import "./common/reset.scss";
 
 html,
 body {
   height: 100%;
+}
+
+html {
+  font-size: 37.5px;
+}
+body {
+  font-size: 16px;
 }

@@ -8,11 +8,17 @@
     </header>
     <!-- vant 组件 输入框 -->
     <van-cell-group>
-      <van-field v-model="username" clearable right-icon="question-o" placeholder="请输入用户名" />
+      <van-field
+        v-model="username"
+        clearable
+        right-icon="question-o"
+        placeholder="请输入用户名"
+        @blur="isRes"
+      />
 
       <van-field v-model="password" type="password" placeholder="请输入密码" />
     </van-cell-group>
-    <van-button type="primary" @click="handres">注册</van-button>
+    <van-button type="primary" @click="handres" :disabled="falg">注册</van-button>
   </div>
 </template>
 <style lang="scss">
@@ -22,6 +28,7 @@
   box-sizing: border-box;
   padding: 30px;
   margin: 0 auto;
+  font-size: 18px;
   .toudi {
     color: blue;
     font-size: 24px;
@@ -58,6 +65,7 @@
     width: 100%;
     margin-top: 30px;
     background: #00b38a;
+    font-size: 20px;
   }
 }
 </style>
@@ -70,29 +78,52 @@ export default {
   data() {
     return {
       username: "", // 绑定用户名输入框
-      password: "" // 绑定密码输入框
+      password: "", // 绑定密码输入框
+      falg: true
     };
   },
   methods: {
     // 注册按钮 点击事件
     handres() {
       let that = this;
+      if (this.username == "" || this.password == "") {
+        this.$toast.fail("用户名或密码不能为空");
+        return;
+      }
       axios
-        .post("http://localhost:3000/user", {
+        .post("http://182.254.161.39:3000/user", {
           username: this.username, // post 请求 向后台发送输入的用户名和密码
           password: bcryptjs.hashSync(this.password, 10) //对密码加盐之后存入数据库
         })
         .then(response => {
           if (response.status === 201) {
             // 注册成功之后自动跳转到登陆页面
-            let redirect = this.$route.query.redirect || "/login";
+
             this.$toast.success("注册成功");
 
-            this.$router.replace(redirect);
+            this.$router.replace("/login");
           } else {
             this.$toast.fail("注册失败");
           }
         });
+    },
+    isRes() {
+      let that = this;
+      axios.get("http://182.254.161.39:3000/user").then(response => {
+        if (response.status === 200) {
+          // 请求成功之后 ，判断用户名是否存在
+          let tmp = response.data.find(item => {
+            return item.username == that.username;
+          });
+          if (tmp) {
+            this.$toast.fail("用户名已存在");
+
+            this.falg = true;
+          } else {
+            this.falg = false;
+          }
+        }
+      });
     }
   }
 };

@@ -38,7 +38,7 @@ export default {
         message: '加载中...'
       })
 
-      axios.get('http://localhost:3000/posts', {
+      axios.get('http://182.254.161.39:3000/posts', {
         params: {
           _page: 1,
           _limit: payload || 10
@@ -59,7 +59,7 @@ export default {
         message: '加载中...'
       })
 
-      axios.get('http://localhost:3000/posts').then(response => {
+      axios.get('http://182.254.161.39:3000/posts').then(response => {
 
         commit('searchList', response.data)
         //console.log(response.data)
