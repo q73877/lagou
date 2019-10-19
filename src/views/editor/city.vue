@@ -1,37 +1,40 @@
 <template>
   <div class="page-city">
-    <div id="content">
-      <div class="info">
-        <span class="text">
-          <em class="left"></em>
-          告诉我你期望的工作地点?
-          <em class="right"></em>
-        </span>
-      </div>
-      <div class="city">
-        <div class="cities-header">热门城市</div>
-        <table class="cities-list">
-          <tr class="cities-list-item">
-            <td class="cities-item" @click="job('北京')">北京</td>
-            <td class="cities-item" @click="job('上海')">上海</td>
-            <td class="cities-item" @click="job('广州')">广州</td>
-          </tr>
-          <tr>
-            <td class="cities-item" @click="job('深圳')">深圳</td>
-            <td class="cities-item" @click="job('武汉')">武汉</td>
-            <td class="cities-item" @click="job('成都')">成都</td>
-          </tr>
-        </table>
+    <div class="wrap">
+      <div id="content">
+        <div class="info">
+          <span class="text">
+            <em class="left"></em>
+            告诉我你期望的工作地点?
+            <em class="right"></em>
+          </span>
+        </div>
 
-        <div v-for="(a,b) in citycity">
-          <div class="cities-header">{{a.nameStr}}</div>
-          <table class="cities-list" v-for="(c,d) in a.cityList" v-if="d%3==2">
+        <div class="city">
+          <div class="cities-header">热门城市</div>
+          <table class="cities-list">
             <tr class="cities-list-item">
-              <td class="cities-item">{{a.cityList[d-2]}}</td>
-              <td class="cities-item">{{a.cityList[d-1]}}</td>
-              <td class="cities-item">{{a.cityList[d]}}</td>
+              <td class="cities-item" @click="job('北京')">北京</td>
+              <td class="cities-item" @click="job('上海')">上海</td>
+              <td class="cities-item" @click="job('广州')">广州</td>
+            </tr>
+            <tr>
+              <td class="cities-item" @click="job('深圳')">深圳</td>
+              <td class="cities-item" @click="job('武汉')">武汉</td>
+              <td class="cities-item" @click="job('成都')">成都</td>
             </tr>
           </table>
+
+          <div v-for="(a,b) in citycity">
+            <div class="cities-header">{{a.nameStr}}</div>
+            <table class="cities-list" v-for="(c,d) in a.cityList" v-if="d%3==2">
+              <tr class="cities-list-item">
+                <td class="cities-item">{{a.cityList[d-2]}}</td>
+                <td class="cities-item">{{a.cityList[d-1]}}</td>
+                <td class="cities-item">{{a.cityList[d]}}</td>
+              </tr>
+            </table>
+          </div>
         </div>
       </div>
     </div>
@@ -40,6 +43,9 @@
 
 <style lang="scss">
 .page-city {
+  .wrap {
+    height: 620px;
+  }
   .info {
     background: url(https://www.lgstatic.com/images/mobile/asset/common/img/back-info.png)
       no-repeat;
@@ -104,6 +110,7 @@
 
 <script>
 import { mapState, mapActions } from "vuex";
+import BScroll from "better-scroll";
 export default {
   data() {
     return {
@@ -307,6 +314,11 @@ export default {
       this.setJob(user);
       this.$router.push("/editor/position");
     }
+  },
+  mounted() {
+    let better = new BScroll(".wrap", {
+      click: true
+    });
   }
 };
 </script>

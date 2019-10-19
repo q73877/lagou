@@ -12,19 +12,19 @@
 
       <ul class="list">
         <li class="activeable item" @click="job('没有要求')">没有要求</li>
-        <li class="activeable item" @click="job('没有要求')">
+        <li class="activeable item" @click="job('初创型')">
           初创型
           <em>(天使轮及未投资)</em>
         </li>
-        <li class="activeable item" @click="job('没有要求')">
+        <li class="activeable item" @click="job('成长型')">
           成长型
           <em>(A轮或B轮融资)</em>
         </li>
-        <li class="activeable item" @click="job('没有要求')">
+        <li class="activeable item" @click="job('成熟型')">
           成熟型
           <em>(C轮融资以上但未上市)</em>
         </li>
-        <li class="activeable item" @click="job('没有要求')">上市公司</li>
+        <li class="activeable item" @click="job('上市公司')">上市公司</li>
       </ul>
     </div>
   </div>

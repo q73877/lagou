@@ -1,5 +1,6 @@
 import Vue from 'vue'
 import Router from 'vue-router'
+import { Search } from 'vant'
 
 
 Vue.use(Router)
@@ -25,6 +26,7 @@ const router = new Router({
         {
           // 搜索页面
           path: 'search',
+          name: 'search',
           component: () => import('./views/home/search.vue')
         },
         {

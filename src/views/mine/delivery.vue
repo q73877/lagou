@@ -6,36 +6,41 @@
       <div class="left">
         <span class="corner" @click="goBack"></span>
       </div>
-      <div class="right">
+      <router-link class="right" to="/first">
         <span class="corner"></span>
-      </div>
-    </header>
-    <ul class="list">
-      <router-link
-        tag="li"
-        v-for="ele in list"
-        :key="ele.id"
-        :to="{path:'/film',query:{ id:ele.id }}"
-      >
-        <img :src="ele.img" />
-        <div>
-          <h2>{{ele.title}}</h2>
-          <p>
-            <span>{{ele.job}} [{{ele.address}}]</span>
-            <span>
-              {{ele.wage}}
-              <em @click.stop="dele(ele.id)">删除</em>
-            </span>
-          </p>
-          <span class="a-time">投递时间：{{ ele.time }}</span>
-        </div>
       </router-link>
-    </ul>
+    </header>
+    <div class="wrap">
+      <ul class="list">
+        <router-link
+          tag="li"
+          v-for="ele in list"
+          :key="ele.id"
+          :to="{path:'/film',query:{ id:ele.id }}"
+        >
+          <img :src="ele.img" />
+          <div>
+            <h2>{{ele.title}}</h2>
+            <p>
+              <span>{{ele.job}} [{{ele.address}}]</span>
+              <span>
+                {{ele.wage}}
+                <em @click.stop="dele(ele.id)">删除</em>
+              </span>
+            </p>
+            <span class="a-time">投递时间：{{ ele.time }}</span>
+          </div>
+        </router-link>
+      </ul>
+    </div>
   </div>
 </template>
 
 <style lang="scss">
 .page-mine-delivery {
+  .wrap {
+    height: 620px;
+  }
   #header {
     height: 45px;
     line-height: 45px;
@@ -129,6 +134,7 @@
 
 <script>
 import { mapState } from "vuex";
+import BScroll from "better-scroll";
 export default {
   data() {
     return {
@@ -177,6 +183,11 @@ export default {
       });
       return tmp;
     }
+  },
+  mounted() {
+    let better = new BScroll(".wrap", {
+      click: true
+    });
   }
 };
 </script>

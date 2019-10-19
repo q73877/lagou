@@ -1,43 +1,50 @@
 <template>
   <div class="page-home-search">
     <!-- 二级路由页面，搜索页 -->
-    <router-link to="/city" class="city-a" tag="span">全国</router-link>
-    <van-search
-      placeholder="搜索公司名称或职位"
-      show-action
-      shape="round"
-      left-icon
-      v-model="searchVal"
-      @blur="handsearch"
-    >
-      <div slot="action" @click="handsearch">
-        <i class="iconfont icon-weibiaoti- icon-size"></i>
-      </div>
-    </van-search>
+    <div class="wrap">
+      <div>
+        <router-link to="/city" class="city-a" tag="span">{{city}}</router-link>
+        <van-search
+          placeholder="搜索公司名或职位"
+          show-action
+          shape="round"
+          left-icon
+          v-model="searchVal"
+          @blur="handsearch"
+        >
+          <div slot="action" @click="handsearch">
+            <i class="iconfont icon-weibiaoti- icon-size"></i>
+          </div>
+        </van-search>
 
-    <ul class="list">
-      <router-link
-        tag="li"
-        v-for="item in search"
-        :key="item.id"
-        :to="{path:'/film',query:{ id:item.id }}"
-      >
-        <img :src="item.img" />
-        <div>
-          <h2>{{ item.title }}</h2>
-          <p>
-            <span>{{ item.job }} [{{item.address}}]</span>
-            <span>{{item.wage}}</span>
-          </p>
-          <span class="a-time">{{item.ltime}}</span>
-        </div>
-      </router-link>
-    </ul>
+        <ul class="list">
+          <router-link
+            tag="li"
+            v-for="item in search"
+            :key="item.id"
+            :to="{path:'/film',query:{ id:item.id }}"
+          >
+            <img :src="item.img" />
+            <div>
+              <h2>{{ item.title }}</h2>
+              <p>
+                <span>{{ item.job }} [{{item.address}}]</span>
+                <span>{{item.wage}}</span>
+              </p>
+              <span class="a-time">{{item.ltime}}</span>
+            </div>
+          </router-link>
+        </ul>
+      </div>
+    </div>
   </div>
 </template>
 
 <style lang="scss">
 .page-home-search {
+  .wrap {
+    height: 575px;
+  }
   .city-a {
     float: left;
     display: block;
@@ -120,10 +127,11 @@
 
 <script>
 import { mapActions, mapState } from "vuex";
-
+import BScroll from "better-scroll";
 export default {
   data() {
     return {
+      city: "全国",
       searchVal: "", // 绑定搜索框
       search: [] // 搜索过来的数据列表
     };
@@ -136,24 +144,51 @@ export default {
     //...mapActions("film", ["getSearch"]),
     // 点击搜索
     handsearch() {
-      if (!this.searchVal) {
-        return [];
+      if (this.$route.params.city) {
+        if (!this.searchVal) {
+          this.search = this.filmSearch.filter(item => {
+            return item.address === this.$route.params.city;
+          });
+        } else {
+          this.search = this.filmSearch.filter(item => {
+            return (
+              item.address === this.$route.params.city &&
+              (item.title.indexOf(this.searchVal) > -1 ||
+                item.job.indexOf(this.searchVal) > -1 ||
+                item.pingying.indexOf(this.searchVal.toLowerCase()) > -1 ||
+                item.jobpy.indexOf(this.searchVal.toLowerCase()) > -1)
+            );
+          });
+        }
+      } else {
+        if (!this.searchVal) {
+          return;
+        } else {
+          this.search = this.filmSearch.filter(item => {
+            return (
+              //console.log("aa"),
+              // 公司名搜索
+              item.title.indexOf(this.searchVal) > -1 ||
+              item.job.indexOf(this.searchVal) > -1 ||
+              item.pingying.indexOf(this.searchVal.toLowerCase()) > -1 ||
+              item.jobpy.indexOf(this.searchVal.toLowerCase()) > -1
+            );
+          });
+        }
       }
-      this.search = this.filmSearch.filter(item => {
-        return (
-          //console.log("aa"),
-          // 公司名搜索
-          item.title.indexOf(this.searchVal) > -1 ||
-          item.job.indexOf(this.searchVal) > -1 // 职位搜索
-        );
-      });
-      //console.log(this.filmSearch);
-      //return tmp;
+    }
+  },
+  mounted() {
+    let better = new BScroll(".wrap", {
+      click: true
+    });
+  },
+  created() {
+    //console.log(typeof this.$route.params.city);
+
+    if (this.$route.params.city) {
+      this.city = this.$route.params.city;
     }
   }
-  /*   created() {
-    //this.getSearch();
-    //console.log(this.filmSearch);
-  } */
 };
 </script>
